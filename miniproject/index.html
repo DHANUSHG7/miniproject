@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miniproject</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <img src="bg.jpg" alt="" class="bg">
+   <form class="upload">
+        <label for="name">Name </label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="crime">Name of the crime:</label><br>
+        <input type="text" id="crime" name="crime"><br>
+        <label for="Date">Date of yhe crime:</label><br>
+        <input type="text" id="Date" name="Date"><br>
+        <label for="pdate">Prison date</label><br>
+        <input type="text" id="pdate" name="pdate"><br>
+        <label for="Summary">Summary</label><br>
+        <input type="text" id="Summary" name="Summary"><br>
+      </form>
+
+      <div class="container">
+        <h1>FaceScanner</h1>
+        <div class="section">
+            <div id="my-qr-reader">
+            </div>
+        </div>
+    </div>
+     </body>
+     <script src="https://unpkg.com/html5-qrcode"></script>
+     <script>// script.js file
+
+        function domReady(fn) {
+            if (
+                document.readyState === "complete" ||
+                document.readyState === "interactive"
+            ) {
+                setTimeout(fn, 1000);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+        
+        domReady(function () {
+        
+            // If found you qr code
+            function onScanSuccess(decodeText, decodeResult) {
+                alert("You Qr is : " + decodeText, decodeResult);
+            }
+        
+            let htmlscanner = new Html5QrcodeScanner(
+                "my-qr-reader",
+                { fps: 10, qrbos: 250 }
+            );
+            htmlscanner.render(onScanSuccess);
+        });
+        </script>
+</html>

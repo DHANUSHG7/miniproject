@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Suspect Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4158D0;
+            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden; /* Prevents page scroll */
+        }
+
+        /* Form Container */
+        .form-control {
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh; /* Keeps form within viewport */
+            background: #212121;
+            padding: 32px 24px;
+            font-size: 15px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-sizing: border-box;
+            border-radius: 16px;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+            overflow-y: auto; /* Enables scroll if form overflows */
+        }
+
+        /* Heading */
+        .title {
+            text-align: center;
+            color: #FFCC70;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        /* Form Styling */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            color: #C850C0;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .input, input[type="file"], textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #ffffff;
+            background-color: #2E2E2E;
+            border: 1px solid #414141;
+            font-size: 14px;
+            box-sizing: border-box; /* Ensures input fields match form width */
+        }
+
+        textarea {
+            resize: none;
+            height: 96px;
+        }
+
+        .input::placeholder,
+        textarea::placeholder {
+            color: #999;
+        }
+
+        /* Submit Button Styling */
+        .submit-btn {
+            align-self: center;
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 16px;
+            width: 100%;
+            background: linear-gradient(145deg, #C850C0, #FFCC70);
+            padding: 12px 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-sizing: border-box; /* Ensures button matches form width */
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(145deg, #FFCC70, #C850C0);
+        }
+
+        /* Custom file upload label */
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px solid #4CAF50;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-file-upload:hover {
+            background-color: #45a049;
+        }
+
+        /* Hide the real file input */
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-control">
+        <h1 class="title">Suspect Information Submission Form</h1>
+        <form action="/submit" method="POST" enctype="multipart/form-data">
+            <!-- Image Upload -->
+            <div class="form-group">
+                <label for="image">Upload Image:</label>
+                <label for="image" class="custom-file-upload">Choose File</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div>
+
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="input" id="name" name="name" placeholder="Enter name" required>
+            </div>
+
+            <!-- Crime Name -->
+            <div class="form-group">
+                <label for="crime_name">Name of the Crime:</label>
+                <input type="text" class="input" id="crime_name" name="crime_name" placeholder="Enter crime name" required>
+            </div>
+
+            <!-- Date of Crime -->
+            <div class="form-group">
+                <label for="crime_date">Date of the Crime:</label>
+                <input type="date" class="input" id="crime_date" name="crime_date" required>
+            </div>
+
+            <!-- Prison Date -->
+            <div class="form-group">
+                <label for="prison_date">Prison Date:</label>
+                <input type="date" class="input" id="prison_date" name="prison_date" required>
+            </div>
+
+            <!-- Year (Months in Prison) -->
+            <div class="form-group">
+                <label for="year">Months in Prison:</label>
+                <input type="number" class="input" id="year" name="year" placeholder="Enter months" required>
+            </div>
+
+            <!-- Summary -->
+            <div class="form-group">
+                <label for="summary">Summary:</label>
+                <textarea id="summary" class="input" name="summary" placeholder="Enter summary" required></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face Recognition System</title>
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Body */
+    body {
+      background-color: #121212;
+      color: #E0E0E0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; /* Prevents scrolling */
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: #333;
+      color: white;
+      z-index: 2;
+      position: relative;
+    }
+
+    header .logo h1 {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      color: #E0E0E0;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    nav ul li a:hover {
+      color: #4CAF50;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: calc(100vh - 60px); /* Adjusted to avoid navbar overlap */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; /* Aligns content to the left */
+      background-image: url('R.png'); /* Ensure the image path is correct */
+      background-size: cover; /* Cover the entire section */
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+      text-align: left;
+      padding-left: 50px; /* Adds padding to move content inwards */
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero-content h2 {
+      font-size: 36px;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-content .btn {
+      background-color: #4CAF50;
+      padding: 12px 25px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .hero-content .btn:hover {
+      background-color: #388E3C;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 10px 0;
+      background-color: #333;
+      color: white;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3); /* Adjusted transparency */
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .modal-content {
+      background-color: rgba(0, 0, 0, 0.8); /* Modal background darker */
+      padding: 30px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 900px;
+      color: #E0E0E0;
+      overflow-y: auto;
+      max-height: 80vh; /* Makes the content scrollable if it overflows */
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.9);
+      opacity: 0.95; /* Reduce opacity of the modal content */
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .modal-content p, .modal-content ul {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      font-size: 18px;
+      text-align: left;
+    }
+
+    .modal-content ul {
+      padding-left: 20px;
+    }
+
+    .close-btn {
+      color: #E0E0E0;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 25px;
+    }
+
+    /* Hidden File Input */
+    #image {
+      display: none;
+    }
+
+    /* Clickable Area for File Upload */
+    .upload-area {
+      position: fixed;
+      top: 60px; /* Start below the navbar */
+      right: 0;
+      width: 50%;
+      height: calc(100vh - 60px); /* Avoid navbar overlap */
+      cursor: pointer;
+    }
+       /* From Uiverse.io by nikk7007 */ 
+.button {
+ --color: #00A97F;
+ padding: 0.8em 1.7em;
+ background-color: transparent;
+ border-radius: .3em;
+ position: relative;
+ overflow: hidden;
+ cursor: pointer;
+ transition: .5s;
+ font-weight: 400;
+ font-size: 17px;
+ border: 1px solid;
+ font-family: inherit;
+ text-transform: uppercase;
+ color: var(--color);
+ z-index: 1;
+}
+
+.button::before, .button::after {
+ content: '';
+ display: block;
+ width: 50px;
+ height: 50px;
+ transform: translate(-50%, -50%);
+ position: absolute;
+ border-radius: 50%;
+ z-index: -1;
+ background-color: var(--color);
+ transition: 1s ease;
+}
+
+.button::before {
+ top: -1em;
+ left: -1em;
+}
+
+.button::after {
+ left: calc(100% + 1em);
+ top: calc(100% + 1em);
+}
+
+.button:hover::before, .button:hover::after {
+ height: 410px;
+ width: 410px;
+}
+
+.button:hover {
+ color: rgb(10, 25, 30);
+}
+
+.button:active {
+ filter: brightness(.8);
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Police Suspect</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#" onclick="openModal()">About</a></li>
+        <li><a href="#" onclick="openNewPage()">Upload</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Welcome to the Face Recognition System</h2>
+        <p><li>A web application for identifying and managing suspects using advanced face recognition technology.</li> <br> 
+        <li>A Face Recognition System is a type of biometric software application that identifies or verifies a person by analyzing patterns based on their facial features.</li><br>
+        <li> In the context of your project for a police suspect system, face recognition technology can be used to match suspects' faces against a database of known individuals to aid in criminal investigations.</li>
+    </p>     
+        <button class="button"">Analysis</button>
+      </div>
+    </section>
+
+    <!-- Hidden File Input -->
+    <input type="file" id="image" name="image" accept="image/*" required>
+
+    <!-- Clickable Area for Upload -->
+    <div class="upload-area" onclick="triggerFileInput()">
+      <!-- The upload area is still functional and clickable -->
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Face Recognition System. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Modal for About Section -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3>Overview</h3>
+      <p>The Police Suspect Analytics through Face Recognition project aims to develop an image recognition system that can help law enforcement agencies identify suspects by matching their faces with records from past cases. By leveraging artificial intelligence (AI) and facial recognition technology, the system can analyze images of suspects and generate a report containing detailed information about the individual, such as:</p>
+      <ul>
+        <li>Name</li>
+        <li>Crime history</li>
+        <li>Date of the crime</li>
+        <li>Prison records</li>
+        <li>Years served in prison</li>
+        <li>Case summary</li>
+      </ul>
+      <p>This technology aims to enhance the efficiency of law enforcement, reduce human error in identification, and provide quicker access to crucial criminal data.</p>
+      <h3>Purpose</h3>
+      <p>The primary purpose of this project is to assist law enforcement agencies in identifying criminals or suspects by matching faces from photos or videos against a database of previously recorded images of criminals. By automating the face-matching process, the project aims to:</p>
+      <ul>
+        <li>Improve the accuracy of suspect identification.</li>
+        <li>Streamline the process of analyzing criminal databases.</li>
+        <li>Reduce the time spent on manually identifying suspects.</li>
+      </ul>
+      <h3>How It Works</h3>
+      <p>Image Upload: The user uploads an image of a suspect, which is sent to the system for analysis.</p>
+      <p>Face Recognition: The uploaded image is processed using face recognition technology to extract key features and compare them with a database of known criminals.</p>
+      <p>Database Matching: The system matches the face features against stored records of previous suspects and identifies potential matches.</p>
+      <p>Report Generation: If a match is found, the system generates a detailed report about the suspect, including their crime history, prison time, and other relevant data.</p>
+    </div>
+  </div>
+
+  <script>
+    function openNewPage() {
+      window.open('d3.html', '_blank');
+    }
+
+    function openModal() {
+      document.getElementById("aboutModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("aboutModal").style.display = "none";
+    }
+
+    // Close the modal if clicked outside the modal content
+    window.onclick = function(event) {
+      if (event.target === document.getElementById("aboutModal")) {
+        closeModal();
+      }
+    }
+
+    // Trigger file input when the user clicks on the right portion
+    function triggerFileInput() {
+      document.getElementById('image').click();
+    }
+  </script>
+</body>
+</html>
